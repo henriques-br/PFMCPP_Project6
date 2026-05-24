@@ -63,10 +63,14 @@ struct T
     std::string name;                                //3
 };
 
-struct <#structName1#>                                //4
+struct Comparator                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5
     {
+        if ( a == nullptr || b == nullptr )
+        {
+            return nullptr;
+        }
         if( a->value < b->value ) return a;
         if( a->value > b->value ) return b;
         return nullptr;
@@ -117,11 +121,11 @@ struct <#structname2#>
 
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T firstVariable(5,"First Variable" );                                                    //6
+    T secondVariable(4, "Second Variable");                                                  //6
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
+    Comparator f;                                                                            //7
+    auto* smaller = f.compare(&firstVariable, &secondVariable);                              //8
     std::cout << "the smaller one is << " << smaller->name << std::endl; //9
     
     U <#name3#>;
