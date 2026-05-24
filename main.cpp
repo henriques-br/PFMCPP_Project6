@@ -50,6 +50,8 @@ Purpose:  This project will show you the difference between member functions and
  12) replicate the functionality of <structName2>'s static function by implementing a member function in U that does the same thing.
  
  13) remember the rules for using pointers!  What is the one thing we always do before we use a pointer?
+ Always initialize pointers to nullptr if not assigning them to an object (imediatelly) when we declare them
+ Always check if they are nullptr or pointing to a valid object before use them
  
  After you finish, click the [run] button.  Clear up any errors or warnings as best you can.
  */
@@ -79,29 +81,42 @@ struct Comparator                                //4
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float current { 0 }, target { 0 };
+    float updateTarget(float* updatedValue)      //12
     {
-        
+        std::cout << "U's current value: " << current << std::endl;
+
+        current = *updatedValue;
+
+        std::cout << "U's current updated value: " << current << std::endl;
+
+        while( std::abs(target - current) > 0.001f )
+        {
+            target += (current - target) * 0.5f;
+        }
+
+        std::cout << "U's target updated value: " << target << std::endl;
+
+        return target * current;
     }
 };
 
-struct <#structname2#>
+struct Utility
 {
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
+    static float update(U* that, float* updatedValue)        //10
     {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        std::cout << "U's current value: " << that->current << std::endl;
+        that->current = *updatedValue;
+        std::cout << "U's current updated value: " << that->current << std::endl;
+        while( std::abs(that->target - that->current) > 0.001f )
         {
             /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+             write something that makes the distance between that->target and that->current get smaller
              */
-            that-><#name2#> += ;
+            that->target += (that->current - that->target) * 0.5f;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        std::cout << "U's target updated value: " << that->target << std::endl;
+        return that->target * that->current;
     }
 };
         
@@ -126,12 +141,22 @@ int main()
     
     Comparator f;                                                                            //7
     auto* smaller = f.compare(&firstVariable, &secondVariable);                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
     
-    U <#name3#>;
+    if (smaller != nullptr)
+    {
+        std::cout << "the smaller one is << " << smaller->name << std::endl;                 //9
+    }
+    else
+    {
+        std::cout << "compare() returned nullptr because:\n"
+                  << "1. both values are equal\n"
+                  << "2. no smaller object exists\n";
+    }
+    
+    U firstU;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
+    std::cout << "[static func] firstU's multiplied values: " << Utility::update(&firstU , &updatedValue) << std::endl;                  //11
     
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    U secondU;
+    std::cout << "[member func] secondU's multiplied values: " << secondU.updateTarget( &updatedValue ) << std::endl;
 }
