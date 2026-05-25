@@ -84,6 +84,11 @@ struct U
     float current { 0 }, target { 0 };
     float updateTarget(float* updatedValue)      //12
     {
+        if (updatedValue == nullptr)
+        {
+            std::cout << "updatedValue is nullptr\n";
+            return 0.f;
+        }
         std::cout << "U's current value: " << current << std::endl;
 
         current = *updatedValue;
@@ -105,6 +110,16 @@ struct Utility
 {
     static float update(U* that, float* updatedValue)        //10
     {
+        if (that == nullptr)
+        {
+            std::cout << "that is nullptr\n";
+            return 0.f;
+        }
+        if (updatedValue == nullptr)
+        {
+            std::cout << "updatedValue is nullptr\n";
+            return 0.f;
+        }
         std::cout << "U's current value: " << that->current << std::endl;
         that->current = *updatedValue;
         std::cout << "U's current updated value: " << that->current << std::endl;
