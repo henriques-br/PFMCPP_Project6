@@ -36,14 +36,10 @@ struct T
 
 struct Comparator                                //4
 {
-    T* compare(T* a, T* b) //5
+    T* compare(T& a, T& b) //5
     {
-        if ( a == nullptr || b == nullptr )
-        {
-            return nullptr;
-        }
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;
         return nullptr;
     }
 };
@@ -119,7 +115,7 @@ int main()
     T secondVariable(4, "Second Variable");                                                  //6
     
     Comparator f;                                                                            //7
-    auto* smaller = f.compare(&firstVariable, &secondVariable);                              //8
+    auto* smaller = f.compare(firstVariable, secondVariable);                              //8
     
     if (smaller != nullptr)
     {
