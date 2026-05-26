@@ -77,30 +77,25 @@ struct U
 
 struct Utility
 {
-    static float update(U* that, float* updatedValue)        //10
+    static float update(U& that, const float* updatedValue)        //10
     {
-        if (that == nullptr)
-        {
-            std::cout << "that is nullptr\n";
-            return 0.f;
-        }
         if (updatedValue == nullptr)
         {
             std::cout << "updatedValue is nullptr\n";
             return 0.f;
         }
-        std::cout << "U's current value: " << that->current << std::endl;
-        that->current = *updatedValue;
-        std::cout << "U's current updated value: " << that->current << std::endl;
-        while( std::abs(that->target - that->current) > 0.001f )
+        std::cout << "U's current value: " << that.current << std::endl;
+        that.current = *updatedValue;
+        std::cout << "U's current updated value: " << that.current << std::endl;
+        while( std::abs(that.target - that.current) > 0.001f )
         {
             /*
              write something that makes the distance between that->target and that->current get smaller
              */
-            that->target += (that->current - that->target) * 0.5f;
+            that.target += (that.current - that.target) * 0.5f;
         }
-        std::cout << "U's target updated value: " << that->target << std::endl;
-        return that->target * that->current;
+        std::cout << "U's target updated value: " << that.target << std::endl;
+        return that.target * that.current;
     }
 };
         
@@ -137,7 +132,7 @@ int main()
     
     U firstU;
     float updatedValue = 5.f;
-    std::cout << "[static func] firstU's multiplied values: " << Utility::update(&firstU , &updatedValue) << std::endl;                  //11
+    std::cout << "[static func] firstU's multiplied values: " << Utility::update(firstU , &updatedValue) << std::endl;                  //11
     
     U secondU;
     std::cout << "[member func] secondU's multiplied values: " << secondU.updateTarget( &updatedValue ) << std::endl;
