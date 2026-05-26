@@ -132,9 +132,7 @@ int main()
     }
     else
     {
-        std::cout << "compare() returned nullptr because:\n"
-                  << "1. both values are equal\n"
-                  << "2. no smaller object exists\n";
+        std::cout << "compare() returned nullptr because: both values are equal\n";
     }
     
     U firstU;
