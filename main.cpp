@@ -47,16 +47,11 @@ struct Comparator                                //4
 struct U
 {
     float current { 0 }, target { 0 };
-    float updateTarget(const float* updatedValue)      //12
+    float updateTarget(float& updatedValue)      //12
     {
-        if (updatedValue == nullptr)
-        {
-            std::cout << "updatedValue is nullptr\n";
-            return 0.f;
-        }
         std::cout << "U's current value: " << current << std::endl;
 
-        current = *updatedValue;
+        current = updatedValue;
 
         std::cout << "U's current updated value: " << current << std::endl;
 
@@ -73,15 +68,10 @@ struct U
 
 struct Utility
 {
-    static float update(U& that, const float* updatedValue)        //10
+    static float update(U& that, float& updatedValue)        //10
     {
-        if (updatedValue == nullptr)
-        {
-            std::cout << "updatedValue is nullptr\n";
-            return 0.f;
-        }
         std::cout << "U's current value: " << that.current << std::endl;
-        that.current = *updatedValue;
+        that.current = updatedValue;
         std::cout << "U's current updated value: " << that.current << std::endl;
         while( std::abs(that.target - that.current) > 0.001f )
         {
@@ -128,8 +118,8 @@ int main()
     
     U firstU;
     float updatedValue = 5.f;
-    std::cout << "[static func] firstU's multiplied values: " << Utility::update(firstU , &updatedValue) << std::endl;                  //11
+    std::cout << "[static func] firstU's multiplied values: " << Utility::update(firstU , updatedValue) << std::endl;                  //11
     
     U secondU;
-    std::cout << "[member func] secondU's multiplied values: " << secondU.updateTarget( &updatedValue ) << std::endl;
+    std::cout << "[member func] secondU's multiplied values: " << secondU.updateTarget( updatedValue ) << std::endl;
 }
