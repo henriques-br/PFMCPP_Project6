@@ -51,7 +51,7 @@ struct Comparator                                //4
 struct U
 {
     float current { 0 }, target { 0 };
-    float updateTarget(float* updatedValue)      //12
+    float updateTarget(const float* updatedValue)      //12
     {
         if (updatedValue == nullptr)
         {
